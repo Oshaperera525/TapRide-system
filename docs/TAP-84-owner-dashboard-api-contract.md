@@ -6,6 +6,24 @@ implements this contract in
 `frontend/src/features/owner-dashboard/services/dashboardService.ts`; the backend
 team can build against it without reading any React code.
 
+## Sprint 3 integration checklist
+
+- [ ] **Owner access is enforced by the backend from the JWT.** Every endpoint
+  resolves the owner from the bearer token; frontend routing is not security.
+  The frontend auth guard / login-and-session work has not been built yet and
+  will be added together with it.
+- [ ] **Verify all three endpoints against the real backend** (`/summary`,
+  `/revenue`, `/active-buses`) and confirm the payloads match this contract.
+- [ ] **Test failure and edge cases:** `401` (missing/expired/invalid JWT),
+  empty responses, server errors (`5xx`), and unexpected or malformed response
+  data. The dashboard must show its error state (or keep the last good data with
+  a warning), never crash or silently display stale figures as current.
+- [ ] **All figures are calculated server-side from real records:** revenue,
+  active bus counts and journey statistics must come from the database. The
+  frontend must never compute or estimate them from partial data.
+- [ ] **Quick Actions currently open placeholder pages.** They must be connected
+  to the real owner modules when those pages exist.
+
 ## General rules
 
 | Rule | Detail |

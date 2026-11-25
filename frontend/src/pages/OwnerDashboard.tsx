@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
-import { Bus, CheckCircle2, RefreshCw, Ticket, Users } from 'lucide-react';
+import { Bus, CheckCircle2, Info, RefreshCw, Ticket, Users } from 'lucide-react';
 import ActiveBusesSection from '../features/owner-dashboard/components/ActiveBusesSection';
 import DashboardError, { DashboardSkeleton, SectionEmpty } from '../features/owner-dashboard/components/DashboardStates';
 import QuickActions from '../features/owner-dashboard/components/QuickActions';
 import RevenueCard from '../features/owner-dashboard/components/RevenueCard';
 import StatCard from '../features/owner-dashboard/components/StatCard';
 import { useDashboardData } from '../features/owner-dashboard/hooks/useDashboardData';
+import { IS_DEMO_MODE } from '../features/owner-dashboard/services/dashboardService';
 import type { OverviewStats } from '../features/owner-dashboard/types';
 
 // The page only orchestrates: all fetching lives in the hook and each child
@@ -67,6 +68,15 @@ export default function OwnerDashboard() {
 
         {status === 'success' && data && (
           <>
+            {/* Demo data must never be mistaken for real revenue/operations. */}
+            {IS_DEMO_MODE && (
+              <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#f0d9a8] bg-[#fff8e8] px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-[#8a5a00]">
+                <Info className="h-3.5 w-3.5" aria-hidden="true" />
+                Demo data
+                <span className="sr-only"> — sample values, not real revenue or operational data</span>
+              </p>
+            )}
+
             {/* Non-blocking refresh failure: warn but keep the data on screen. */}
             {error && (
               <p role="alert" className="mt-4 rounded-xl border border-[#f7d9c4] bg-[#fff4e5] px-4 py-3 text-xs font-semibold text-[#c88921]">

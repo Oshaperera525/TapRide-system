@@ -6,12 +6,18 @@ import type {
   RevenueSummary,
 } from '../types';
 
-// Vite exposes env vars as strings, so import.meta.env.VITE_USE_MOCK is
-// 'true' | 'false' | undefined. Comparing against the exact string 'false'
-// means VITE_USE_MOCK=false really does switch the mock off.
-const USE_MOCK: boolean = import.meta.env.VITE_USE_MOCK !== 'false';
+// Mock data is only allowed when it is an explicit opt-in:
+//  - VITE_USE_MOCK === 'true' (works in any build, e.g. a backend-less demo), or
+//  - running under the dev server and VITE_USE_MOCK is not 'false'.
+// A production build without VITE_USE_MOCK=true always calls the real API.
+const USE_MOCK: boolean =
+  import.meta.env.VITE_USE_MOCK === 'true' ||
+  (import.meta.env.DEV && import.meta.env.VITE_USE_MOCK !== 'false');
 // No trailing slash; endpoint paths below include /api/v1 themselves.
 const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
+
+/** True while the dashboard renders built-in demo data instead of the API. */
+export const IS_DEMO_MODE: boolean = USE_MOCK;
 
 interface ApiErrorBody {
   detail?: string;
