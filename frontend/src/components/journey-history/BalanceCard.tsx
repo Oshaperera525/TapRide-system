@@ -20,7 +20,7 @@ export default function BalanceCard({ summary }: BalanceCardProps) {
             Current wallet balance
           </p>
           <p className="mt-2 font-['Manrope',sans-serif] text-[32px] font-extrabold leading-none tracking-tight md:text-[40px]">
-            {formatCurrency(summary.balance)}
+            {formatCurrency(summary.currentBalance)}
           </p>
           <p className="mt-2.5 text-[10px] font-medium text-blue-200">Updated just now</p>
         </div>
@@ -39,7 +39,7 @@ export default function BalanceCard({ summary }: BalanceCardProps) {
               Journey fares
             </dt>
             <dd className="mt-1 font-['Manrope',sans-serif] text-[13px] font-extrabold md:text-[15px]">
-              {formatWholeCurrency(summary.journeyFares)}
+              {formatWholeCurrency(summary.totalJourneyFares)}
             </dd>
           </div>
         </dl>

@@ -1,7 +1,12 @@
 import type { Journey, Transaction, WalletSummary } from './types';
 
-export const INITIAL_VISIBLE_TRANSACTIONS = 5;
-export const TRANSACTIONS_PER_PAGE = 4;
+// The balance is backend-owned data; it is never derived from transaction rows.
+// Values match the design so the mock agrees with the Figma.
+export const MOCK_WALLET_SUMMARY: Omit<WalletSummary, 'updatedAt'> = {
+  currentBalance: 2398,
+  totalTopUps: 5000,
+  totalJourneyFares: 2602,
+};
 
 export const MOCK_TRANSACTIONS: readonly Transaction[] = [
   {
@@ -151,27 +156,44 @@ export const MOCK_JOURNEYS: readonly Journey[] = [
     status: 'COMPLETED',
     hasReceipt: true,
   },
+  {
+    id: 'journey-138-26am',
+    routeNumber: 'Route 138',
+    from: 'Colombo Fort',
+    to: 'Kaduwela',
+    dateTime: '26 Aug 2026 · 07:52 AM',
+    fare: 52,
+    status: 'COMPLETED',
+    hasReceipt: true,
+  },
+  {
+    id: 'journey-177-25pm',
+    routeNumber: 'Route 177',
+    from: 'Kollupitiya',
+    to: 'Kaduwela',
+    dateTime: '25 Aug 2026 · 05:20 PM',
+    fare: 65,
+    status: 'COMPLETED',
+    hasReceipt: true,
+  },
+  {
+    id: 'journey-154-25am',
+    routeNumber: 'Route 154',
+    from: 'Kaduwela',
+    to: 'Colombo Fort',
+    dateTime: '25 Aug 2026 · 06:40 AM',
+    fare: 52,
+    status: 'COMPLETED',
+    hasReceipt: true,
+  },
+  {
+    id: 'journey-100-24pm',
+    routeNumber: 'Route 100',
+    from: 'Pettah',
+    to: 'Panadura',
+    dateTime: '24 Aug 2026 · 03:45 PM',
+    fare: 120,
+    status: 'COMPLETED',
+    hasReceipt: true,
+  },
 ];
-
-export function getWalletSummary(transactions: readonly Transaction[]): WalletSummary {
-  let totalTopUps = 0;
-  let journeyFares = 0;
-
-  for (const transaction of transactions) {
-    if (transaction.status !== 'COMPLETED' || transaction.amount === null) continue;
-
-    if (transaction.kind === 'top-up' && transaction.direction === 'credit') {
-      totalTopUps += transaction.amount;
-    }
-
-    if (transaction.kind === 'journey-fare' && transaction.direction === 'debit') {
-      journeyFares += transaction.amount;
-    }
-  }
-
-  return {
-    totalTopUps,
-    journeyFares,
-    balance: totalTopUps - journeyFares,
-  };
-}

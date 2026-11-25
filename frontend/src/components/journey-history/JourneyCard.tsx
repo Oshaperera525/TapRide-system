@@ -32,14 +32,17 @@ export default function JourneyCard({ journey }: JourneyCardProps) {
                   {journey.dateTime}
                 </p>
                 {journey.hasReceipt && (
+                  // TODO(Sprint 3): wire this to the receipt endpoint once it exists.
                   <button
                     type="button"
-                    className="text-[#2156E8] hover:underline"
-                    aria-label={`View digital receipt for ${journey.routeNumber}`}
+                    aria-disabled="true"
+                    title="Digital receipts will be available soon"
+                    className="cursor-not-allowed text-slate-400"
                   >
                     <span className="text-[10px] font-semibold md:text-[11px]">
                       View digital receipt
                     </span>
+                    <span className="sr-only">Digital receipts will be available soon</span>
                   </button>
                 )}
               </div>
